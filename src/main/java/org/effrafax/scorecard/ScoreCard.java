@@ -1,24 +1,26 @@
 package org.effrafax.scorecard;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ScoreCard {
 
+	private final List<Round> rounds;
+
 	public ScoreCard(String... names) {
+		this.rounds = new ArrayList<Round>();
 	}
 
 	public Result result() {
-		Map<String, Integer> scores = new HashMap<String, Integer>();
-		scores.put("Daan", 0);
-		scores.put("Marlies", 0);
-		scores.put("Jet", 0);
-		scores.put("Peter", 0);
-		return new SingleResult(scores);
+		CompoundResult result = new CompoundResult();
+		for (Round round : rounds) {
+			result.add(round.result());
+		}
+		return result;
 	}
 
 	public void add(Round round) {
-
+		rounds.add(round);
 	}
 
 }

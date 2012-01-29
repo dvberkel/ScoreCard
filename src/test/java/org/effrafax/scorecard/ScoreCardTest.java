@@ -1,8 +1,8 @@
 package org.effrafax.scorecard;
 
+import static org.effrafax.scorecard.PartialRound.where;
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 
@@ -20,10 +20,14 @@ public class ScoreCardTest {
 		assertEquals(0, result.pointsFor("Peter"));
 	}
 
-	@Ignore
 	@Test
 	public void calculateScoreAfterRound() {
 		ScoreCard scoreCard = new ScoreCard("Daan", "Marlies", "Jet", "Peter");
+		scoreCard.add(new Round(
+				where("Daan").bid(1).won(1),
+				where("Marlies").bid(0).won(0),
+				where("Jet").bid(1).won(0),
+				where("Peter").bid(0).won(0)));
 
 		Result result = scoreCard.result();
 
