@@ -1,9 +1,7 @@
 package org.effrafax.scorecard;
 
-public class Result {
+public interface Result {
 
-	public int pointsFor(String name) {
-		return 0;
-	}
+	public abstract int pointsFor(String name);
 
 }
