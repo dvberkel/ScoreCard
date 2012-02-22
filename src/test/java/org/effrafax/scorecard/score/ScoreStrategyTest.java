@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.effrafax.scorecard.round.PartialRound;
-import org.effrafax.scorecard.score.BoerenBridgeStrategy;
-import org.effrafax.scorecard.score.OpEnNeerStrategy;
+import org.effrafax.scorecard.score.BoerenBridge;
+import org.effrafax.scorecard.score.OpEnNeer;
 import org.effrafax.scorecard.score.ScoreStrategy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,14 +44,14 @@ public class ScoreStrategyTest {
 	@Parameters
 	public static Collection<Object[]> data() {
 		List<Object[]> data = new ArrayList<Object[]>();
-		ScoreStrategy opEnNeerStrategy = new OpEnNeerStrategy();
+		ScoreStrategy opEnNeerStrategy = new OpEnNeer();
 		data.add(new Object[] { opEnNeerStrategy, 0, 0, 10 });
 		data.add(new Object[] { opEnNeerStrategy, 1, 1, 12 });
 		data.add(new Object[] { opEnNeerStrategy, 2, 2, 14 });
 		data.add(new Object[] { opEnNeerStrategy, 0, 1, -2 });
 		data.add(new Object[] { opEnNeerStrategy, 0, 2, -4 });
 		data.add(new Object[] { opEnNeerStrategy, 1, 0, -2 });
-		ScoreStrategy boerenBridgeStrategy = new BoerenBridgeStrategy();
+		ScoreStrategy boerenBridgeStrategy = new BoerenBridge();
 		data.add(new Object[] { boerenBridgeStrategy, 0, 0, 5 });
 		data.add(new Object[] { boerenBridgeStrategy, 1, 1, 6 });
 		data.add(new Object[] { boerenBridgeStrategy, 2, 2, 7 });

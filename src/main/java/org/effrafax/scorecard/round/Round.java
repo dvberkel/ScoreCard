@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.effrafax.scorecard.result.Result;
 import org.effrafax.scorecard.result.SingleResult;
-import org.effrafax.scorecard.score.OpEnNeerStrategy;
+import org.effrafax.scorecard.score.OpEnNeer;
 import org.effrafax.scorecard.score.ScoreStrategy;
 
 public class Round {
@@ -24,7 +24,7 @@ public class Round {
 	}
 
 	public Result result() {
-		ScoreStrategy strategy = new OpEnNeerStrategy();
+		ScoreStrategy strategy = new OpEnNeer();
 		Map<String, Integer> scores = new HashMap<String, Integer>();
 		for (PartialRound partialRound : partialRounds) {
 			scores.put(partialRound.player(), strategy.score(partialRound));
