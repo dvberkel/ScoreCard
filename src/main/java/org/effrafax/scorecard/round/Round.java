@@ -94,30 +94,40 @@ class PlayersCollector implements Collector {
 	}
 }
 
-class BidTotalCollector implements Collector {
-	private int bidTotal = 0;
+abstract class CountCollector implements Collector {
+	private int count = 0;
 
 	@Override
 	public void collect(PartialRound partialRound) {
-		bidTotal += partialRound.getBid();
+		count += incrementFrom(partialRound);
+	}
+
+	protected abstract int incrementFrom(PartialRound partialRound);
+
+	public int count() {
+		return count;
+	}
+}
+
+class BidTotalCollector extends CountCollector {
+	@Override
+	protected int incrementFrom(PartialRound partialRound) {
+		return partialRound.getBid();
 	}
 
 	public int bidTotal() {
-		return bidTotal;
+		return count();
 	}
-
 }
 
-class WinningsCollector implements Collector {
-	private int winnings = 0;
-
-	@Override
-	public void collect(PartialRound partialRound) {
-		winnings += partialRound.getWon();
+class WinningsCollector extends CountCollector {
+	public int winnings() {
+		return count();
 	}
 
-	public int winnings() {
-		return winnings;
+	@Override
+	protected int incrementFrom(PartialRound partialRound) {
+		return partialRound.getWon();
 	}
 
 }
