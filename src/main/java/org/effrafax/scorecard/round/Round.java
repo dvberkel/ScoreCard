@@ -24,10 +24,14 @@ public class Round {
 
 	public Result result() {
 		ScoreStrategy strategy = new OpEnNeer();
+		return new SingleResult(scores(strategy));
+	}
+
+	private Map<String, Integer> scores(ScoreStrategy strategy) {
 		Map<String, Integer> scores = new HashMap<String, Integer>();
 		for (PartialRound partialRound : partialRounds) {
 			scores.put(partialRound.player(), strategy.score(partialRound));
 		}
-		return new SingleResult(scores);
+		return scores;
 	}
 }
