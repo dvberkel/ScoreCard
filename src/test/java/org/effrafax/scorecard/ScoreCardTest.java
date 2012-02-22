@@ -3,6 +3,7 @@ package org.effrafax.scorecard;
 import static org.effrafax.scorecard.PartialRound.where;
 import static org.junit.Assert.assertEquals;
 
+import org.effrafax.scorecard.result.Result;
 import org.junit.Test;
 
 

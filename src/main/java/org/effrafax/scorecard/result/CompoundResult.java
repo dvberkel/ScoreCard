@@ -1,7 +1,8 @@
-package org.effrafax.scorecard;
+package org.effrafax.scorecard.result;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class CompoundResult implements Result {
 

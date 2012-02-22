@@ -1,6 +1,7 @@
-package org.effrafax.scorecard;
+package org.effrafax.scorecard.result;
 
 import java.util.Map;
+
 
 public class SingleResult implements Result {
 

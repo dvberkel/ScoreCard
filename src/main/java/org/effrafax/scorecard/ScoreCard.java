@@ -3,6 +3,9 @@ package org.effrafax.scorecard;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.effrafax.scorecard.result.CompoundResult;
+import org.effrafax.scorecard.result.Result;
+
 public class ScoreCard {
 
 	private final List<Round> rounds;

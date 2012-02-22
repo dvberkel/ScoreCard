@@ -1,4 +1,4 @@
-package org.effrafax.scorecard;
+package org.effrafax.scorecard.result;
 
 public interface Result {
 
