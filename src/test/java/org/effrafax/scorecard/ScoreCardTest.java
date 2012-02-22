@@ -6,15 +6,21 @@ import static org.junit.Assert.assertEquals;
 import org.effrafax.scorecard.result.Result;
 import org.effrafax.scorecard.round.Round;
 import org.effrafax.scorecard.score.OpEnNeer;
+import org.junit.Before;
 import org.junit.Test;
 
 
 public class ScoreCardTest {
 
-	@Test
-	public void prepareScoreCard() {
-		ScoreCard scoreCard = new ScoreCard(new OpEnNeer(), "Daan", "Marlies", "Jet", "Peter");
+	private ScoreCard scoreCard;
 
+	@Before
+	public void createScoreCard() {
+		this.scoreCard = new ScoreCard(new OpEnNeer(), "Daan", "Marlies", "Jet", "Peter");
+	}
+
+	@Test
+	public void calculateInitialScore() {
 		Result result = scoreCard.result();
 
 		assertEquals(0, result.pointsFor("Daan"));
@@ -25,7 +31,6 @@ public class ScoreCardTest {
 
 	@Test
 	public void calculateScoreAfterRound() {
-		ScoreCard scoreCard = new ScoreCard(new OpEnNeer(), "Daan", "Marlies", "Jet", "Peter");
 		scoreCard.add(new Round(
 				where("Daan").bid(1).won(1),
 				where("Marlies").bid(0).won(0),
