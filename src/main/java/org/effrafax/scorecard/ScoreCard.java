@@ -43,9 +43,13 @@ public class ScoreCard {
 		if (! players.equals(round.players())) {
 			throw new WrongPlayerInRound();
 		}
-		if (rounds.size() + 1 == round.bidTotal()) {
+		if (numberOfCardsThisRound() == round.bidTotal()) {
 			throw new BidsTotalsNumberOfCards();
 		}
+	}
+
+	private int numberOfCardsThisRound() {
+		return rounds.size() + 1;
 	}
 
 }
