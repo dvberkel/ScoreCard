@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.effrafax.scorecard.result.Result;
 import org.effrafax.scorecard.result.SingleResult;
-import org.effrafax.scorecard.score.OpEnNeer;
 import org.effrafax.scorecard.score.ScoreStrategy;
 
 public class Round {
@@ -22,8 +21,7 @@ public class Round {
 		this.partialRounds = partialRounds;
 	}
 
-	public Result result() {
-		ScoreStrategy strategy = new OpEnNeer();
+	public Result result(ScoreStrategy strategy) {
 		return new SingleResult(scores(strategy));
 	}
 

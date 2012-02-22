@@ -4,7 +4,7 @@ import static org.effrafax.scorecard.round.PartialRound.where;
 import static org.junit.Assert.assertEquals;
 
 import org.effrafax.scorecard.result.Result;
-import org.effrafax.scorecard.round.Round;
+import org.effrafax.scorecard.score.OpEnNeer;
 import org.junit.Test;
 
 public class RoundTest {
@@ -18,7 +18,7 @@ public class RoundTest {
 			where("Peter").bid(1).won(1)
 		);
 
-		Result result = round.result();
+		Result result = round.result(new OpEnNeer());
 
 		assertEquals(-2, result.pointsFor("Daan"));
 		assertEquals(10, result.pointsFor("Marlies"));

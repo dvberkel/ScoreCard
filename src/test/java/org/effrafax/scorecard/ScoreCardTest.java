@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.effrafax.scorecard.result.Result;
 import org.effrafax.scorecard.round.Round;
+import org.effrafax.scorecard.score.OpEnNeer;
 import org.junit.Test;
 
 
@@ -12,7 +13,7 @@ public class ScoreCardTest {
 
 	@Test
 	public void prepareScoreCard() {
-		ScoreCard scoreCard = new ScoreCard("Daan", "Marlies", "Jet", "Peter");
+		ScoreCard scoreCard = new ScoreCard(new OpEnNeer(), "Daan", "Marlies", "Jet", "Peter");
 
 		Result result = scoreCard.result();
 
@@ -24,7 +25,7 @@ public class ScoreCardTest {
 
 	@Test
 	public void calculateScoreAfterRound() {
-		ScoreCard scoreCard = new ScoreCard("Daan", "Marlies", "Jet", "Peter");
+		ScoreCard scoreCard = new ScoreCard(new OpEnNeer(), "Daan", "Marlies", "Jet", "Peter");
 		scoreCard.add(new Round(
 				where("Daan").bid(1).won(1),
 				where("Marlies").bid(0).won(0),
