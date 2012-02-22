@@ -1,6 +1,7 @@
 package org.effrafax.scorecard.round;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,18 +29,55 @@ public class Round {
 	}
 
 	private Map<String, Integer> scores(ScoreStrategy strategy) {
-		Map<String, Integer> scores = new HashMap<String, Integer>();
+		ScoresCollector collector = new ScoresCollector(strategy);
+		collectWith(collector);
+		return collector.scores();
+	}
+
+	private void collectWith(Collector collector) {
 		for (PartialRound partialRound : partialRounds) {
-			scores.put(partialRound.player(), strategy.score(partialRound));
+			collector.collect(partialRound);
 		}
-		return scores;
 	}
 
 	public Set<String> players() {
-		HashSet<String> players = new HashSet<String>();
-		for (PartialRound partialRound : partialRounds) {
-			players.add(partialRound.player());
-		}
-		return players;
+		PlayersCollector collector = new PlayersCollector();
+		collectWith(collector);
+		return collector.players();
+	}
+}
+
+interface Collector {
+	public void collect(PartialRound partialRound);
+}
+
+class ScoresCollector implements Collector {
+	private final Map<String, Integer> scores = new HashMap<String, Integer>();
+	private final ScoreStrategy strategy;
+
+	public ScoresCollector(ScoreStrategy strategy) {
+		this.strategy = strategy;
+	}
+
+	@Override
+	public void collect(PartialRound partialRound) {
+		scores.put(partialRound.player(), strategy.score(partialRound));
+	}
+
+	public Map<String, Integer> scores() {
+		return Collections.unmodifiableMap(this.scores);
+	}
+}
+
+class PlayersCollector implements Collector {
+	private final Set<String> players = new HashSet<String>();
+
+	@Override
+	public void collect(PartialRound partialRound) {
+		players.add(partialRound.player());
+	}
+
+	public Set<String> players() {
+		return Collections.unmodifiableSet(players);
 	}
 }
