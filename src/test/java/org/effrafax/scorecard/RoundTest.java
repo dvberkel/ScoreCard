@@ -1,19 +1,20 @@
 package org.effrafax.scorecard;
 
+import static org.effrafax.scorecard.PartialRound.where;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-
 
 public class RoundTest {
 
 	@Test
 	public void testBuildRound() {
-		Round round = new Round(PartialRound.where("Daan").bid(1).won(0),
-				PartialRound.where("Marlies").bid(0).won(0), PartialRound
-				.where("Jet").bid(0).won(0), PartialRound
-				.where("Peter").bid(1).won(1));
+		Round round = new Round(
+			where("Daan").bid(1).won(0),
+			where("Marlies").bid(0).won(0),
+			where("Jet").bid(0).won(0),
+			where("Peter").bid(1).won(1)
+		);
 
 		Result result = round.result();
 
