@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.effrafax.scorecard.PartialRound;
+import org.effrafax.scorecard.round.PartialRound;
 import org.effrafax.scorecard.score.BoerenBridgeStrategy;
 import org.effrafax.scorecard.score.OpEnNeerStrategy;
 import org.effrafax.scorecard.score.ScoreStrategy;

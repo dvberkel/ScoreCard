@@ -1,4 +1,4 @@
-package org.effrafax.scorecard;
+package org.effrafax.scorecard.round;
 
 import java.util.ArrayList;
 import java.util.HashMap;

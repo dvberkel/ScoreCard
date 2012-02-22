@@ -1,9 +1,10 @@
 package org.effrafax.scorecard;
 
-import static org.effrafax.scorecard.PartialRound.where;
+import static org.effrafax.scorecard.round.PartialRound.where;
 import static org.junit.Assert.assertEquals;
 
 import org.effrafax.scorecard.result.Result;
+import org.effrafax.scorecard.round.Round;
 import org.junit.Test;
 
 

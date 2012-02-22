@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.effrafax.scorecard.result.CompoundResult;
 import org.effrafax.scorecard.result.Result;
+import org.effrafax.scorecard.round.Round;
 
 public class ScoreCard {
 
