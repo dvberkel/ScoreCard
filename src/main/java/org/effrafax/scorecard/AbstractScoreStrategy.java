@@ -1,11 +1,11 @@
 package org.effrafax.scorecard;
 
-public class AbstractCardStrategy {
+public class AbstractScoreStrategy {
 
 	private final int bonus;
 	private final int cardScore;
 
-	public AbstractCardStrategy(int bonus, int cardScore) {
+	public AbstractScoreStrategy(int bonus, int cardScore) {
 		this.bonus = bonus;
 		this.cardScore = cardScore;
 	}
