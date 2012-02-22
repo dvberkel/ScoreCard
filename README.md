@@ -1,6 +1,8 @@
 Scorecard
 =========
 
+[![Build Status](https://secure.travis-ci.org/dvberkel/ScoreCard.png)](http://travis-ci.org/dvberkel/ScoreCard)
+
 This project will provide a scorecard for a certain type of card games.
 
 Card game
