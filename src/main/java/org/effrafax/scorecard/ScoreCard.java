@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.effrafax.scorecard.exception.BidsTotalsNumberOfCards;
+import org.effrafax.scorecard.exception.WinningsNotNumberOfCards;
 import org.effrafax.scorecard.exception.WrongPlayerInRound;
 import org.effrafax.scorecard.result.CompoundResult;
 import org.effrafax.scorecard.result.Result;
@@ -45,6 +46,9 @@ public class ScoreCard {
 		}
 		if (numberOfCardsThisRound() == round.bidTotal()) {
 			throw new BidsTotalsNumberOfCards();
+		}
+		if (numberOfCardsThisRound() != round.winnings()) {
+			throw new WinningsNotNumberOfCards();
 		}
 	}
 

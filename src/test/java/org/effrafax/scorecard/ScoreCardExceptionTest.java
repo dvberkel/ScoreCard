@@ -3,6 +3,7 @@ package org.effrafax.scorecard;
 import static org.effrafax.scorecard.round.PartialRound.where;
 
 import org.effrafax.scorecard.exception.BidsTotalsNumberOfCards;
+import org.effrafax.scorecard.exception.WinningsNotNumberOfCards;
 import org.effrafax.scorecard.exception.WrongPlayerInRound;
 import org.effrafax.scorecard.round.Round;
 import org.effrafax.scorecard.score.OpEnNeer;
@@ -31,6 +32,18 @@ public class ScoreCardExceptionTest {
 			where("Jet").bid(1).won(0),
 			where("Marlies").bid(0).won(0),
 			where("Daan").bid(0).won(1)
+		));
+	}
+
+	@Test(expected=WinningsNotNumberOfCards.class)
+	public void whenWinningsNotNumberOfCards() {
+		ScoreCard scoreCard = new ScoreCard(new OpEnNeer(), "Peter", "Jet", "Marlies", "Daan");
+
+		scoreCard.add(new Round(
+			where("Peter").bid(0).won(0),
+			where("Jet").bid(1).won(1),
+			where("Marlies").bid(0).won(0),
+			where("Daan").bid(1).won(1)
 		));
 	}
 
