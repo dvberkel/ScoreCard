@@ -1,6 +1,6 @@
 package org.effrafax.scorecard.round;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,13 +14,12 @@ public class Round {
 
 	private final List<PartialRound> partialRounds;
 
-	public Round(PartialRound partialRoundPlayer1, PartialRound partialRoundPlayer2, PartialRound partialRoundPlayer3,
-			PartialRound partialRoundPlayer4) {
-		partialRounds = new ArrayList<PartialRound>();
-		partialRounds.add(partialRoundPlayer1);
-		partialRounds.add(partialRoundPlayer2);
-		partialRounds.add(partialRoundPlayer3);
-		partialRounds.add(partialRoundPlayer4);
+	public Round(PartialRound partialRoundPlayer1, PartialRound partialRoundPlayer2, PartialRound partialRoundPlayer3, PartialRound partialRoundPlayer4) {
+		this(Arrays.asList(new PartialRound[]{partialRoundPlayer1, partialRoundPlayer2, partialRoundPlayer3, partialRoundPlayer4}));
+	}
+
+	private Round(final List<PartialRound> partialRounds) {
+		this.partialRounds = partialRounds;
 	}
 
 	public Result result() {
