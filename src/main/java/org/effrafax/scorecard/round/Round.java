@@ -2,8 +2,10 @@ package org.effrafax.scorecard.round;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.effrafax.scorecard.result.Result;
 import org.effrafax.scorecard.result.SingleResult;
@@ -31,5 +33,13 @@ public class Round {
 			scores.put(partialRound.player(), strategy.score(partialRound));
 		}
 		return scores;
+	}
+
+	public Set<String> players() {
+		HashSet<String> players = new HashSet<String>();
+		for (PartialRound partialRound : partialRounds) {
+			players.add(partialRound.player());
+		}
+		return players;
 	}
 }
