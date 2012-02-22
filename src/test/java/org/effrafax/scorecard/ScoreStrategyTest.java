@@ -13,7 +13,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 
 @RunWith(Parameterized.class)
-public class StrategyTest {
+public class ScoreStrategyTest {
 
 	private static final String PLAYER = "Peter";
 	private final ScoreStrategy strategy;
@@ -21,7 +21,7 @@ public class StrategyTest {
 	private final int won;
 	private final Integer expectedScore;
 
-	public StrategyTest(ScoreStrategy strategy, int bid, int won,
+	public ScoreStrategyTest(ScoreStrategy strategy, int bid, int won,
 			int expectedScore) {
 		this.strategy = strategy;
 		this.bid = bid;
