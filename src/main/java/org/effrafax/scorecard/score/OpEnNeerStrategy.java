@@ -1,4 +1,5 @@
-package org.effrafax.scorecard;
+package org.effrafax.scorecard.score;
+
 
 public class OpEnNeerStrategy extends AbstractScoreStrategy implements ScoreStrategy {
 

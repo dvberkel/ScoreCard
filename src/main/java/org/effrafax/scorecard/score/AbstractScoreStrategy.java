@@ -1,4 +1,6 @@
-package org.effrafax.scorecard;
+package org.effrafax.scorecard.score;
+
+import org.effrafax.scorecard.PartialRound;
 
 public class AbstractScoreStrategy {
 

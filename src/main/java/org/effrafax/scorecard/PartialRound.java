@@ -28,7 +28,7 @@ public class PartialRound {
 		return won;
 	}
 
-	static class PartialRoundBuilder {
+	public static class PartialRoundBuilder {
 
 		public String player;
 
@@ -42,7 +42,7 @@ public class PartialRound {
 
 	}
 
-	static class CurriedPartialRoundBuilder {
+	public static class CurriedPartialRoundBuilder {
 
 		public String player;
 		public int expectedBid;

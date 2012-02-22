@@ -1,4 +1,4 @@
-package org.effrafax.scorecard;
+package org.effrafax.scorecard.score;
 
 import static org.junit.Assert.assertEquals;
 
@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.effrafax.scorecard.PartialRound;
+import org.effrafax.scorecard.score.BoerenBridgeStrategy;
+import org.effrafax.scorecard.score.OpEnNeerStrategy;
+import org.effrafax.scorecard.score.ScoreStrategy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
