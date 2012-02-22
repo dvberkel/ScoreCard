@@ -30,7 +30,7 @@ public class PartialRound {
 
 	public static class PartialRoundBuilder {
 
-		public String player;
+		public final String player;
 
 		public PartialRoundBuilder(String player) {
 			this.player = player;
@@ -44,8 +44,8 @@ public class PartialRound {
 
 	public static class CurriedPartialRoundBuilder {
 
-		public String player;
-		public int expectedBid;
+		public final String player;
+		public final int expectedBid;
 
 		public CurriedPartialRoundBuilder(String player, int expectedBid) {
 			this.player = player;
