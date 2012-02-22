@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.effrafax.scorecard.exception.BidsTotalsRound;
+import org.effrafax.scorecard.exception.BidsTotalsNumberOfCards;
 import org.effrafax.scorecard.exception.WrongPlayerInRound;
 import org.effrafax.scorecard.result.CompoundResult;
 import org.effrafax.scorecard.result.Result;
@@ -44,7 +44,7 @@ public class ScoreCard {
 			throw new WrongPlayerInRound();
 		}
 		if (rounds.size() + 1 == round.bidTotal()) {
-			throw new BidsTotalsRound();
+			throw new BidsTotalsNumberOfCards();
 		}
 	}
 

@@ -2,7 +2,7 @@ package org.effrafax.scorecard;
 
 import static org.effrafax.scorecard.round.PartialRound.where;
 
-import org.effrafax.scorecard.exception.BidsTotalsRound;
+import org.effrafax.scorecard.exception.BidsTotalsNumberOfCards;
 import org.effrafax.scorecard.exception.WrongPlayerInRound;
 import org.effrafax.scorecard.round.Round;
 import org.effrafax.scorecard.score.OpEnNeer;
@@ -22,7 +22,7 @@ public class ScoreCardExceptionTest {
 		));
 	}
 
-	@Test(expected=BidsTotalsRound.class)
+	@Test(expected=BidsTotalsNumberOfCards.class)
 	public void whenBidsTotalRound() {
 		ScoreCard scoreCard = new ScoreCard(new OpEnNeer(), "Peter", "Jet", "Marlies", "Daan");
 
