@@ -45,6 +45,12 @@ public class Round {
 		collectWith(collector);
 		return collector.players();
 	}
+
+	public int bidTotal() {
+		BidTotalCollector collector = new BidTotalCollector();
+		collectWith(collector);
+		return collector.bidTotal();
+	}
 }
 
 interface Collector {
@@ -80,4 +86,18 @@ class PlayersCollector implements Collector {
 	public Set<String> players() {
 		return Collections.unmodifiableSet(players);
 	}
+}
+
+class BidTotalCollector implements Collector {
+	private int bidTotal = 0;
+
+	@Override
+	public void collect(PartialRound partialRound) {
+		bidTotal += partialRound.getBid();
+	}
+
+	public int bidTotal() {
+		return bidTotal;
+	}
+
 }
