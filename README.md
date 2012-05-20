@@ -3,7 +3,9 @@ Scorecard
 
 [![Build Status](https://secure.travis-ci.org/dvberkel/ScoreCard.png)](http://travis-ci.org/dvberkel/ScoreCard)
 
-This project will provide a scorecard for a certain type of card games.
+This project will provide a scorecard for a certain type of card
+games. See what we are working on via our
+[Trello board](https://trello.com/board/scorecard/4f3a69e826d5cf580c05e727 "Trello board for ScoreCard project")
 
 Card game
 ---------
