@@ -6,8 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.effrafax.scorecard.exception.BidsTotalsNumberOfCards;
-import org.effrafax.scorecard.exception.WinningsNotNumberOfCards;
+import org.effrafax.scorecard.exception.BidsEqualsNumberOfCardsInRound;
+import org.effrafax.scorecard.exception.TricksWonDoesNotEqualNumberOfCardsInRound;
 import org.effrafax.scorecard.exception.WrongPlayerInRound;
 import org.effrafax.scorecard.result.CompoundResult;
 import org.effrafax.scorecard.result.Result;
@@ -108,12 +108,12 @@ class BidTotalVerifier extends ConditionedRoundVerifier {
 
 	@Override
 	public boolean conditionOn(Round round) {
-		return numberOfCardsThisRound == round.bidTotal();
+		return numberOfCardsThisRound == round.totalBids();
 	}
 
 	@Override
 	public RuntimeException exceptionForCondition() {
-		return new BidsTotalsNumberOfCards();
+		return new BidsEqualsNumberOfCardsInRound();
 	}
 
 }
@@ -128,12 +128,12 @@ class WinningsVerifier extends ConditionedRoundVerifier {
 
 	@Override
 	public boolean conditionOn(Round round) {
-		return round.isFinished() && numberOfCardsThisRound != round.tricks();
+		return round.isFinished() && numberOfCardsThisRound != round.totalTricks();
 	}
 
 	@Override
 	public RuntimeException exceptionForCondition() {
-		return new WinningsNotNumberOfCards();
+		return new TricksWonDoesNotEqualNumberOfCardsInRound();
 	}
 
 }

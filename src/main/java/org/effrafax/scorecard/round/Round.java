@@ -1,8 +1,6 @@
 package org.effrafax.scorecard.round;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,17 +13,15 @@ import org.effrafax.scorecard.score.ScoreStrategy;
 
 public class Round {
 
-	private final List<PartialRound> partialRounds;
 	private final List<Bid> bids;
 	private final Map<String, Trick> tricks = new HashMap<String, Trick>();
 	private boolean finished = false;
 
-	public Round(Bid bid, Bid bid2, Bid bid3, Bid bid4) {
-		this(Arrays.asList(new Bid[] { bid, bid2, bid3, bid4 }));
+	public Round(Bid... bids) {
+		this(Arrays.asList(bids));
 	}
 
 	private Round(final List<Bid> bids) {
-		partialRounds = new ArrayList<PartialRound>();
 		this.bids = bids;
 	}
 
@@ -34,46 +30,37 @@ public class Round {
 	}
 
 	private Map<String, Integer> scores(ScoreStrategy strategy) {
-		Map<String, Integer> scores = new HashMap<String, Integer>();
-		for (Bid bid : this.bids) {
-			scores.put(bid.getPlayer(), strategy.score(bid.getBid(), tricks
-					.get(bid.getPlayer()).getWon()));
-		}
-		return scores;
+		ScoreCollector collector = new ScoreCollector(strategy);
+		collect(collector);
+		return collector.getScores();
 	}
 
-	private void collectWith(Collector collector) {
-		for (PartialRound partialRound : partialRounds) {
-			collector.collect(partialRound);
+	private void collect(Collector collector) {
+		for (Bid bid : bids) {
+			collector.collect(bid);
 		}
 	}
 
 	public Set<String> players() {
-		Set<String> players = new HashSet<String>();
-		for (Bid bid : bids) {
-			players.add(bid.getPlayer());
-		}
-		return players;
+		PlayerCollector collector = new PlayerCollector();
+		collect(collector);
+		return collector.getPlayers();
 	}
 
-	public int bidTotal() {
-		int result = 0;
-		for (Bid bid : bids) {
-			result += bid.getBid();
-		}
-		return result;
+	public int totalBids() {
+		TotalBidsCollector collector = new TotalBidsCollector();
+		collect(collector);
+		return collector.getTotalBids();
 	}
 
-	public int tricks() {
-		int result = 0;
-		for (Bid bid : bids) {
-			result += tricks.get(bid.getPlayer()).getWon();
-		}
-		return result;
+	public int totalTricks() {
+		TotalTricksCollector collector = new TotalTricksCollector();
+		collect(collector);
+		return collector.getTotalTricks();
 	}
 
-	public void tricks(Trick won, Trick won2, Trick won3, Trick won4) {
-		tricks(Arrays.asList(new Trick[] { won, won2, won3, won4 }));
+	public void tricks(Trick... won) {
+		tricks(Arrays.asList(won));
 
 	}
 
@@ -87,78 +74,72 @@ public class Round {
 	public boolean isFinished() {
 		return finished;
 	}
+
+	class ScoreCollector implements Collector {
+
+		private final ScoreStrategy strategy;
+		private final Map<String, Integer> scores = new HashMap<String, Integer>();
+
+		public ScoreCollector(ScoreStrategy strategy) {
+			this.strategy = strategy;
+		}
+
+		@Override
+		public void collect(Bid bid) {
+			scores.put(bid.getPlayer(), strategy.score(bid.getBid(), tricks
+					.get(bid.getPlayer()).getWon()));
+		}
+
+		public Map<String, Integer> getScores() {
+			return scores;
+		}
+	}
+
+	class TotalTricksCollector implements Collector {
+		private int result = 0;
+
+		@Override
+		public void collect(Bid bid) {
+			result += tricks.get(bid.getPlayer()).getWon();
+		}
+
+		public int getTotalTricks() {
+			return result;
+		}
+	}
 }
 
 interface Collector {
-	public void collect(PartialRound partialRound);
+	void collect(Bid bid);
 }
 
-class ScoresCollector implements Collector {
-	private final Map<String, Integer> scores = new HashMap<String, Integer>();
-	private final ScoreStrategy strategy;
-
-	public ScoresCollector(ScoreStrategy strategy) {
-		this.strategy = strategy;
-	}
-
-	@Override
-	public void collect(PartialRound partialRound) {
-		scores.put(partialRound.player(),
-				strategy.score(partialRound.getBid(), partialRound.getWon()));
-	}
-
-	public Map<String, Integer> scores() {
-		return Collections.unmodifiableMap(this.scores);
-	}
-}
-
-class PlayersCollector implements Collector {
+class PlayerCollector implements Collector {
 	private final Set<String> players = new HashSet<String>();
 
 	@Override
-	public void collect(PartialRound partialRound) {
-		players.add(partialRound.player());
+	public void collect(Bid bid) {
+		players.add(bid.getPlayer());
 	}
 
-	public Set<String> players() {
-		return Collections.unmodifiableSet(players);
-	}
-}
-
-abstract class CountCollector implements Collector {
-	private int count = 0;
-
-	@Override
-	public void collect(PartialRound partialRound) {
-		count += incrementFrom(partialRound);
-	}
-
-	protected abstract int incrementFrom(PartialRound partialRound);
-
-	public int count() {
-		return count;
+	public Set<String> getPlayers() {
+		return players;
 	}
 }
 
-class BidTotalCollector extends CountCollector {
-	@Override
-	protected int incrementFrom(PartialRound partialRound) {
-		return partialRound.getBid();
-	}
-
-	public int bidTotal() {
-		return count();
-	}
-}
-
-class WinningsCollector extends CountCollector {
-	public int winnings() {
-		return count();
-	}
+class TotalBidsCollector implements Collector {
+	private int result = 0;
 
 	@Override
-	protected int incrementFrom(PartialRound partialRound) {
-		return partialRound.getWon();
+	public void collect(Bid bid) {
+		result += bid.getBid();
+	}
+
+	public int getTotalBids() {
+		return result;
+	}
+
+	public void setResult(int result) {
+		this.result = result;
 	}
 
 }

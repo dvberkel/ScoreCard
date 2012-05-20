@@ -1,7 +1,7 @@
 package org.effrafax.scorecard;
 
-import org.effrafax.scorecard.exception.BidsTotalsNumberOfCards;
-import org.effrafax.scorecard.exception.WinningsNotNumberOfCards;
+import org.effrafax.scorecard.exception.BidsEqualsNumberOfCardsInRound;
+import org.effrafax.scorecard.exception.TricksWonDoesNotEqualNumberOfCardsInRound;
 import org.effrafax.scorecard.exception.WrongPlayerInRound;
 import org.effrafax.scorecard.round.Bid;
 import org.effrafax.scorecard.round.Round;
@@ -21,7 +21,7 @@ public class ScoreCardExceptionTest {
 				.bid(1)));
 	}
 
-	@Test(expected = BidsTotalsNumberOfCards.class)
+	@Test(expected = BidsEqualsNumberOfCardsInRound.class)
 	public void whenBidsTotalRound() {
 		ScoreCard scoreCard = new ScoreCard(new OpEnNeer(), "Peter", "Jet",
 				"Marlies", "Daan");
@@ -33,7 +33,7 @@ public class ScoreCardExceptionTest {
 	}
 
 	@Ignore
-	@Test(expected = WinningsNotNumberOfCards.class)
+	@Test(expected = TricksWonDoesNotEqualNumberOfCardsInRound.class)
 	public void whenWinningsNotNumberOfCards() {
 		ScoreCard scoreCard = new ScoreCard(new OpEnNeer(), "Peter", "Jet",
 				"Marlies", "Daan");
