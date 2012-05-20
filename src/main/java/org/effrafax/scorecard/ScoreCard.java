@@ -49,14 +49,14 @@ public class ScoreCard {
 	private List<RoundVerifier> verifiers() {
 		List<RoundVerifier> verifiers = new ArrayList<RoundVerifier>();
 		verifiers.add(new PlayersVerifier(players));
-		verifiers.add(new BitTotalVerifier(numberOfCardsThisRound()));
+		verifiers.add(new BidTotalVerifier(numberOfCardsThisRound()));
 		verifiers.add(new WinningsVerifier(numberOfCardsThisRound()));
 		return verifiers;
 	}
 
 	private int numberOfCardsThisRound() {
 		return new Dealer(players.size())
-				.numberOfCardsInRound(rounds.size() + 1);
+		.numberOfCardsInRound(rounds.size() + 1);
 	}
 
 }
@@ -98,11 +98,11 @@ class PlayersVerifier extends ConditionedRoundVerifier {
 
 }
 
-class BitTotalVerifier extends ConditionedRoundVerifier {
+class BidTotalVerifier extends ConditionedRoundVerifier {
 
 	private final int numberOfCardsThisRound;
 
-	public BitTotalVerifier(int numberOfCardsThisRound) {
+	public BidTotalVerifier(int numberOfCardsThisRound) {
 		this.numberOfCardsThisRound = numberOfCardsThisRound;
 	}
 
@@ -128,7 +128,7 @@ class WinningsVerifier extends ConditionedRoundVerifier {
 
 	@Override
 	public boolean conditionOn(Round round) {
-		return numberOfCardsThisRound != round.winnings();
+		return round.isFinished() && numberOfCardsThisRound != round.tricks();
 	}
 
 	@Override

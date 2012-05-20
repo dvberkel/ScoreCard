@@ -6,20 +6,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.effrafax.scorecard.round.PartialRound;
-import org.effrafax.scorecard.score.BoerenBridge;
-import org.effrafax.scorecard.score.OpEnNeer;
-import org.effrafax.scorecard.score.ScoreStrategy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-
 @RunWith(Parameterized.class)
 public class ScoreStrategyTest {
 
-	private static final String PLAYER = "Peter";
 	private final ScoreStrategy strategy;
 	private final int bid;
 	private final int won;
@@ -35,8 +29,7 @@ public class ScoreStrategyTest {
 	}
 	@Test
 	public void scorePartialRound() {
-		int score = strategy
-		.score(PartialRound.where(PLAYER).bid(bid).won(won));
+		int score = strategy.score(bid, won);
 
 		assertEquals(expectedScore, Integer.valueOf(score));
 	}

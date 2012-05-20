@@ -1,6 +1,5 @@
 package org.effrafax.scorecard.score;
 
-import org.effrafax.scorecard.round.PartialRound;
 
 public class AbstractScoreStrategy {
 
@@ -12,11 +11,11 @@ public class AbstractScoreStrategy {
 		this.cardScore = cardScore;
 	}
 
-	public int score(PartialRound partialRound) {
-		if (partialRound.getBid() == partialRound.getWon()) {
-			return bonus + cardScore * partialRound.getWon();
+	public int score(int tricksBid, int tricksWon) {
+		if (tricksBid == tricksWon) {
+			return bonus + cardScore * tricksWon;
 		} else {
-			return -cardScore * Math.abs(partialRound.getBid() - partialRound.getWon());
+			return -cardScore * Math.abs(tricksBid - tricksWon);
 		}
 	}
 

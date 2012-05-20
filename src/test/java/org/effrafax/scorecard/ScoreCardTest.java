@@ -1,10 +1,11 @@
 package org.effrafax.scorecard;
 
-import static org.effrafax.scorecard.round.PartialRound.where;
 import static org.junit.Assert.assertEquals;
 
 import org.effrafax.scorecard.result.Result;
+import org.effrafax.scorecard.round.Bid;
 import org.effrafax.scorecard.round.Round;
+import org.effrafax.scorecard.round.Trick;
 import org.effrafax.scorecard.score.OpEnNeer;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,11 +32,12 @@ public class ScoreCardTest {
 
 	@Test
 	public void calculateScoreAfterRound() {
-		scoreCard.add(new Round(
-				where("Daan").bid(1).won(1),
-				where("Marlies").bid(0).won(0),
-				where("Jet").bid(1).won(0),
-				where("Peter").bid(0).won(0)));
+		Round round = new Round(Bid.where("Daan").bid(1), Bid.where("Marlies")
+				.bid(0), Bid.where("Jet").bid(1), Bid.where("Peter").bid(
+						0));
+		round.tricks(Trick.where("Daan").won(1), Trick.where("Marlies").won(0),
+				Trick.where("Jet").won(0), Trick.where("Peter").won(0));
+		scoreCard.add(round);
 
 		Result result = scoreCard.result();
 

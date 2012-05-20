@@ -1,5 +1,6 @@
 package org.effrafax.scorecard.round;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,13 +16,17 @@ import org.effrafax.scorecard.score.ScoreStrategy;
 public class Round {
 
 	private final List<PartialRound> partialRounds;
+	private final List<Bid> bids;
+	private final Map<String, Trick> tricks = new HashMap<String, Trick>();
+	private boolean finished = false;
 
-	public Round(PartialRound partialRoundPlayer1, PartialRound partialRoundPlayer2, PartialRound partialRoundPlayer3, PartialRound partialRoundPlayer4) {
-		this(Arrays.asList(new PartialRound[]{partialRoundPlayer1, partialRoundPlayer2, partialRoundPlayer3, partialRoundPlayer4}));
+	public Round(Bid bid, Bid bid2, Bid bid3, Bid bid4) {
+		this(Arrays.asList(new Bid[] { bid, bid2, bid3, bid4 }));
 	}
 
-	private Round(final List<PartialRound> partialRounds) {
-		this.partialRounds = partialRounds;
+	private Round(final List<Bid> bids) {
+		partialRounds = new ArrayList<PartialRound>();
+		this.bids = bids;
 	}
 
 	public Result result(ScoreStrategy strategy) {
@@ -29,9 +34,12 @@ public class Round {
 	}
 
 	private Map<String, Integer> scores(ScoreStrategy strategy) {
-		ScoresCollector collector = new ScoresCollector(strategy);
-		collectWith(collector);
-		return collector.scores();
+		Map<String, Integer> scores = new HashMap<String, Integer>();
+		for (Bid bid : this.bids) {
+			scores.put(bid.getPlayer(), strategy.score(bid.getBid(), tricks
+					.get(bid.getPlayer()).getWon()));
+		}
+		return scores;
 	}
 
 	private void collectWith(Collector collector) {
@@ -41,21 +49,43 @@ public class Round {
 	}
 
 	public Set<String> players() {
-		PlayersCollector collector = new PlayersCollector();
-		collectWith(collector);
-		return collector.players();
+		Set<String> players = new HashSet<String>();
+		for (Bid bid : bids) {
+			players.add(bid.getPlayer());
+		}
+		return players;
 	}
 
 	public int bidTotal() {
-		BidTotalCollector collector = new BidTotalCollector();
-		collectWith(collector);
-		return collector.bidTotal();
+		int result = 0;
+		for (Bid bid : bids) {
+			result += bid.getBid();
+		}
+		return result;
 	}
 
-	public int winnings() {
-		WinningsCollector collector = new WinningsCollector();
-		collectWith(collector);
-		return collector.winnings();
+	public int tricks() {
+		int result = 0;
+		for (Bid bid : bids) {
+			result += tricks.get(bid.getPlayer()).getWon();
+		}
+		return result;
+	}
+
+	public void tricks(Trick won, Trick won2, Trick won3, Trick won4) {
+		tricks(Arrays.asList(new Trick[] { won, won2, won3, won4 }));
+
+	}
+
+	private void tricks(List<Trick> asList) {
+		for (Trick trick : asList) {
+			tricks.put(trick.getPlayer(), trick);
+		}
+		finished = true;
+	}
+
+	public boolean isFinished() {
+		return finished;
 	}
 }
 
@@ -73,7 +103,8 @@ class ScoresCollector implements Collector {
 
 	@Override
 	public void collect(PartialRound partialRound) {
-		scores.put(partialRound.player(), strategy.score(partialRound));
+		scores.put(partialRound.player(),
+				strategy.score(partialRound.getBid(), partialRound.getWon()));
 	}
 
 	public Map<String, Integer> scores() {
