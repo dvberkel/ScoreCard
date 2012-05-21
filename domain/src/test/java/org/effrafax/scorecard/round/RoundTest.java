@@ -12,9 +12,11 @@ public class RoundTest {
 	public void createRound() {
 		Round round = new Round(Bid.where("Daan").bid(1), Bid.where("Marlies")
 				.bid(0), Bid.where("Jet").bid(0), Bid.where("Peter").bid(1));
-		round.tricks(Trick.where("Daan").won(0), Trick.where("Marlies").won(0),
-				Trick.where("Jet").won(0), Trick.where("Peter")
-				.won(1));
+		RoundResult roundResult = new RoundResult(Trick.where("Daan").won(0),
+				Trick.where("Marlies").won(0), Trick.where("Jet").won(0), Trick
+				.where("Peter").won(1));
+
+		round.add(roundResult);
 
 		Result result = round.result(new OpEnNeer());
 

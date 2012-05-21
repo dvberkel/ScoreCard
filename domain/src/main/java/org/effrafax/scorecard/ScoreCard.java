@@ -12,6 +12,7 @@ import org.effrafax.scorecard.exception.WrongPlayerInRound;
 import org.effrafax.scorecard.result.CompoundResult;
 import org.effrafax.scorecard.result.Result;
 import org.effrafax.scorecard.round.Round;
+import org.effrafax.scorecard.round.RoundResult;
 import org.effrafax.scorecard.score.ScoreStrategy;
 
 public class ScoreCard {
@@ -57,6 +58,10 @@ public class ScoreCard {
 	private int numberOfCardsThisRound() {
 		return new Dealer(players.size())
 		.numberOfCardsInRound(rounds.size() + 1);
+	}
+
+	public void add(RoundResult roundResult) {
+		rounds.get(rounds.size() - 1).add(roundResult);
 	}
 
 }

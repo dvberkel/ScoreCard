@@ -16,6 +16,7 @@ public class Round {
 	private final List<Bid> bids;
 	private final Map<String, Trick> tricks = new HashMap<String, Trick>();
 	private boolean finished = false;
+	private RoundResult roundResult;
 
 	public Round(Bid... bids) {
 		this(Arrays.asList(bids));
@@ -86,8 +87,11 @@ public class Round {
 
 		@Override
 		public void collect(Bid bid) {
-			scores.put(bid.getPlayer(), strategy.score(bid.getBid(), tricks
-					.get(bid.getPlayer()).getWon()));
+			scores.put(
+					bid.getPlayer(),
+					strategy.score(
+							bid.getBid(),
+							roundResult.tricksBy(bid.getPlayer()).getWon()));
 		}
 
 		public Map<String, Integer> getScores() {
@@ -106,6 +110,10 @@ public class Round {
 		public int getTotalTricks() {
 			return result;
 		}
+	}
+
+	public void add(RoundResult roundResult) {
+		this.roundResult = roundResult;
 	}
 }
 
