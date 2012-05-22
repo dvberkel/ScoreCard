@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.effrafax.scorecard.exception.BidsEqualsNumberOfCardsInRound;
+import org.effrafax.scorecard.exception.RoundAddedBeforeRoundResult;
+import org.effrafax.scorecard.exception.RoundResultAlreadyAdded;
 import org.effrafax.scorecard.exception.TricksWonDoesNotEqualNumberOfCardsInRound;
 import org.effrafax.scorecard.exception.WrongPlayerInRound;
 import org.effrafax.scorecard.result.CompoundResult;
@@ -42,16 +44,16 @@ public class ScoreCard {
 	}
 
 	private void verify(Round round) {
-		for (RoundVerifier verifier : verifiers()) {
+		for (Verifier<Round> verifier : verifiers()) {
 			verifier.verify(round);
 		}
 	}
 
-	private List<RoundVerifier> verifiers() {
-		List<RoundVerifier> verifiers = new ArrayList<RoundVerifier>();
+	private List<Verifier<Round>> verifiers() {
+		List<Verifier<Round>> verifiers = new ArrayList<Verifier<Round>>();
 		verifiers.add(new PlayersVerifier(players));
+		verifiers.add(new LastRoundFinishedVerifier(rounds));
 		verifiers.add(new BidTotalVerifier(numberOfCardsThisRound()));
-		verifiers.add(new WinningsVerifier(numberOfCardsThisRound()));
 		return verifiers;
 	}
 
@@ -61,29 +63,48 @@ public class ScoreCard {
 	}
 
 	public void add(RoundResult roundResult) {
+		verify(roundResult);
 		rounds.get(rounds.size() - 1).add(roundResult);
 	}
 
+	private void verify(RoundResult roundResult) {
+		for (Verifier<RoundResult> verifier : roundResultVerifiers()) {
+			verifier.verify(roundResult);
+		}
+
+	}
+
+	private List<Verifier<RoundResult>> roundResultVerifiers() {
+		List<Verifier<RoundResult>> verifiers = new ArrayList<Verifier<RoundResult>>();
+		// TODO Fix numberOfCardsThisRound()
+		verifiers.add(new WinningsVerifier(numberOfCardsThisRound() - 1));
+		verifiers.add(new LastRoundNotFinished(rounds));
+		return verifiers;
+	}
+}
+
+interface Verifier<T> {
+	public void verify(T element);
 }
 
 interface RoundVerifier {
 	public void verify(Round round);
 }
 
-abstract class ConditionedRoundVerifier implements RoundVerifier {
+abstract class ConditionedVerifier<T> implements Verifier<T> {
 	@Override
-	public void verify(Round round) {
-		if (conditionOn(round)) {
+	public void verify(T element) {
+		if (conditionOn(element)) {
 			throw exceptionForCondition();
 		}
 	}
 
-	public abstract boolean conditionOn(Round round);
+	public abstract boolean conditionOn(T element);
 
 	public abstract RuntimeException exceptionForCondition();
 }
 
-class PlayersVerifier extends ConditionedRoundVerifier {
+class PlayersVerifier extends ConditionedVerifier<Round> {
 
 	private final Set<String> players;
 
@@ -103,7 +124,7 @@ class PlayersVerifier extends ConditionedRoundVerifier {
 
 }
 
-class BidTotalVerifier extends ConditionedRoundVerifier {
+class BidTotalVerifier extends ConditionedVerifier<Round> {
 
 	private final int numberOfCardsThisRound;
 
@@ -123,7 +144,26 @@ class BidTotalVerifier extends ConditionedRoundVerifier {
 
 }
 
-class WinningsVerifier extends ConditionedRoundVerifier {
+class LastRoundFinishedVerifier extends ConditionedVerifier<Round> {
+	private final List<Round> rounds;
+
+	public LastRoundFinishedVerifier(List<Round> rounds) {
+		this.rounds = rounds;
+	}
+
+	@Override
+	public boolean conditionOn(Round element) {
+		return rounds.size() > 0 && !rounds.get(rounds.size() - 1).isFinished();
+	}
+
+	@Override
+	public RuntimeException exceptionForCondition() {
+		return new RoundAddedBeforeRoundResult();
+	}
+
+}
+
+class WinningsVerifier extends ConditionedVerifier<RoundResult> {
 
 	private final int numberOfCardsThisRound;
 
@@ -132,13 +172,33 @@ class WinningsVerifier extends ConditionedRoundVerifier {
 	}
 
 	@Override
-	public boolean conditionOn(Round round) {
-		return round.isFinished() && numberOfCardsThisRound != round.totalTricks();
+	public boolean conditionOn(RoundResult roundResult) {
+		return numberOfCardsThisRound != roundResult.totalTricks();
 	}
 
 	@Override
 	public RuntimeException exceptionForCondition() {
 		return new TricksWonDoesNotEqualNumberOfCardsInRound();
+	}
+
+}
+
+class LastRoundNotFinished extends ConditionedVerifier<RoundResult> {
+
+	private final List<Round> rounds;
+
+	public LastRoundNotFinished(List<Round> rounds) {
+		this.rounds = rounds;
+	}
+
+	@Override
+	public boolean conditionOn(RoundResult element) {
+		return rounds.size() == 0 || rounds.get(rounds.size() - 1).isFinished();
+	}
+
+	@Override
+	public RuntimeException exceptionForCondition() {
+		return new RoundResultAlreadyAdded();
 	}
 
 }

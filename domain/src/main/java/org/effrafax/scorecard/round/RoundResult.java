@@ -16,4 +16,12 @@ public class RoundResult {
 		return winnings.get(player);
 	}
 
+	public int totalTricks() {
+		int result = 0;
+		for (Trick trick : winnings.values()) {
+			result += trick.getWon();
+		}
+		return result;
+	}
+
 }

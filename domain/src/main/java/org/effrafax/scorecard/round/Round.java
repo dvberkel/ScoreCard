@@ -114,6 +114,7 @@ public class Round {
 
 	public void add(RoundResult roundResult) {
 		this.roundResult = roundResult;
+		this.finished = true;
 	}
 }
 
