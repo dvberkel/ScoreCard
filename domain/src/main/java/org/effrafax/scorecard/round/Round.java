@@ -14,8 +14,6 @@ import org.effrafax.scorecard.score.ScoreStrategy;
 public class Round {
 
 	private final List<Bid> bids;
-	private final Map<String, Trick> tricks = new HashMap<String, Trick>();
-	private boolean finished = false;
 	private RoundResult roundResult;
 
 	public Round(Bid... bids) {
@@ -54,26 +52,12 @@ public class Round {
 		return collector.getTotalBids();
 	}
 
-	public int totalTricks() {
-		TotalTricksCollector collector = new TotalTricksCollector();
-		collect(collector);
-		return collector.getTotalTricks();
-	}
-
-	public void tricks(Trick... won) {
-		tricks(Arrays.asList(won));
-
-	}
-
-	private void tricks(List<Trick> asList) {
-		for (Trick trick : asList) {
-			tricks.put(trick.getPlayer(), trick);
-		}
-		finished = true;
-	}
-
 	public boolean isFinished() {
-		return finished;
+		return roundResult != null;
+	}
+
+	public void add(RoundResult roundResult) {
+		this.roundResult = roundResult;
 	}
 
 	class ScoreCollector implements Collector {
@@ -97,24 +81,6 @@ public class Round {
 		public Map<String, Integer> getScores() {
 			return scores;
 		}
-	}
-
-	class TotalTricksCollector implements Collector {
-		private int result = 0;
-
-		@Override
-		public void collect(Bid bid) {
-			result += tricks.get(bid.getPlayer()).getWon();
-		}
-
-		public int getTotalTricks() {
-			return result;
-		}
-	}
-
-	public void add(RoundResult roundResult) {
-		this.roundResult = roundResult;
-		this.finished = true;
 	}
 }
 
